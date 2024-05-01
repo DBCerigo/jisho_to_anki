@@ -6,11 +6,30 @@
 <script>
   var jsonData = JSON.parse(unescape(document.getElementById("back").getAttribute("data")));
 
-  // Title section with word and reading
   var titleContent = `<div class="word-title">
-    <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>
-    <span class="tags">${jsonData.is_common ? 'Common word, ' : ''} Wanikani level ${jsonData.tags[0].substr(8)}</span>
+    <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>`;
+
+  // Process common word
+  var commonWord = jsonData.is_common ? 'Common word' : '';
+
+  // Process JLPT levels
+  var jlptLevels = '';
+  if (jsonData.jlpt && jsonData.jlpt.length > 0) {
+    jlptLevels = `JLPT: ${jsonData.jlpt.map(level => level.toUpperCase().replace('JLPT-', 'N')).join(', ')}`;
+  }
+
+  // Process Wanikani level
+  var wanikaniLevel = '';
+  if (jsonData.tags && jsonData.tags.length > 0 && jsonData.tags[0].startsWith("wanikani")) {
+    wanikaniLevel = `Wanikani level ${jsonData.tags[0].substr(8)}`;
+  }
+
+  // Combine processed parts
+  var tagsContent = [commonWord, jlptLevels, wanikaniLevel].filter(Boolean).join(', ');
+
+  titleContent += `<span class="tags">${tagsContent}</span>
   </div>`;
+
 
   // Definitions and details section
   var definitionsContent = '<div class="definitions">';
