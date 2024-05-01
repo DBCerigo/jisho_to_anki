@@ -3,7 +3,7 @@ import json
 import requests
 
 
-def get_jisho_entry(word):
+def get_jisho_entry(word, entry=0):
     """
     Fetches dictionary entry for a given word from Jisho.org API.
 
@@ -24,13 +24,12 @@ def get_jisho_entry(word):
         data = response.json()
         # Extract the relevant data if the word is found
         if data['data']:
-            first_entry = data['data'][0]  # Return the first entry which is typically the most relevant
+            entry = data['data'][entry]
         else:
             return "No results found."
     else:
         return "Failed to retrieve data from Jisho.org"
-    print(json.dumps(first_entry, indent=4))
-    return data
+    print(json.dumps(entry, indent=4))
 
 
 #search = 'sword (esp. a large, double-edged one)'
