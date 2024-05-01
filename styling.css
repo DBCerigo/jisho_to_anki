@@ -22,6 +22,12 @@
   margin-top: 10px;
 }
 
+.definitions .part-of-speech {
+  font-size: 16px;
+  color: grey;
+  margin-bottom: 5px;
+}
+
 .definitions strong {
   font-size: 18px;
 }
@@ -29,9 +35,4 @@
 .other-forms, .notes {
   font-style: italic;
   margin-top: 15px;
-}
-
-.wikipedia {
-  margin-top: 10px;
-  font-size: 14px;
 }

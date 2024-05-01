@@ -16,8 +16,9 @@
   var definitionsContent = '<div class="definitions">';
   jsonData.senses.forEach(function(sense, index) {
     definitionsContent += `<div class="definition">
+      <div class="part-of-speech">${sense.parts_of_speech[0]}</div>
       <strong>${index + 1}. ${sense.english_definitions.join(', ')}</strong>`;
-    if (sense.parts_of_speech.includes('Noun')) {
+    if (sense.restrictions.length > 0) {
       definitionsContent += `<p>(Only applies to ${jsonData.japanese[0].reading})</p>`;
     }
     definitionsContent += `</div>`;
