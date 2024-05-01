@@ -9,8 +9,15 @@
   var titleContent = `<div class="word-title">
     <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>`;
 
+  // Process JLPT levels
+  var jlptLevels = jsonData.jlpt.map(level => level.toUpperCase().replace('JLPT-', '')).join(', ');
+  if (jlptLevels.length > 0) {
+    jlptLevels = `JLPT: ${jlptLevels}`;
+  }
+
   var tagsContent = [
     jsonData.is_common ? 'Common word' : '',
+    jlptLevels,
     jsonData.tags.length > 0 ? `Wanikani level ${jsonData.tags[0].substr(8)}` : ''
   ].filter(tag => tag).join(', ');
 
