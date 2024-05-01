@@ -1,10 +1,13 @@
 <!-- Back Template -->
 {{FrontSide}}
 <hr id="answer">
-<div id="back" class="card" data='{{json_data}}'></div>
+<div id="back" class="card">
+  <div id="json_data" style="display:none;">{{json_data}}</div>
+</div>
 
 <script>
-  var jsonData = JSON.parse(unescape(document.getElementById("back").getAttribute("data")));
+  var jsonDataElement = document.getElementById("json_data").innerText;
+  var jsonData = JSON.parse(unescape(jsonDataElement));
 
   var titleContent = `<div class="word-title">
     <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>`;
