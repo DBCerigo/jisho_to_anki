@@ -15,6 +15,12 @@
   // Definitions and details section
   var definitionsContent = '<div class="definitions">';
   jsonData.senses.forEach(function(sense, index) {
+
+    // Skip if parts_of_speech includes "Wikipedia definition"
+    if (sense.parts_of_speech.includes("Wikipedia definition")) {
+      return;
+    }
+
     definitionsContent += `<div class="definition">
       <div class="part-of-speech">${sense.parts_of_speech[0]}</div>
       <strong>${index + 1}. ${sense.english_definitions.join(', ')}</strong>`;
