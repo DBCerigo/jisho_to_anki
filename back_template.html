@@ -15,7 +15,7 @@
   // Process JLPT levels
   var jlptLevels = '';
   if (jsonData.jlpt && jsonData.jlpt.length > 0) {
-    jlptLevels = `JLPT: ${jsonData.jlpt.map(level => level.toUpperCase().replace('JLPT-', 'N')).join(', ')}`;
+    jlptLevels = `JLPT: ${jsonData.jlpt.map(level => level.toUpperCase().replace('JLPT-', '')).join(', ')}`;
   }
 
   // Process Wanikani level
