@@ -9,56 +9,35 @@
   var titleContent = `<div class="word-title">
     <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>`;
 
-  // Process common word
-  var commonWord = jsonData.is_common ? 'Common word' : '';
+  // Process tags like common word and Wanikani level
+  var tagsContent = [
+    jsonData.is_common ? 'Common word' : '',
+    jsonData.tags.length > 0 ? `Wanikani level ${jsonData.tags[0].substr(8)}` : ''
+  ].filter(tag => tag).join(', ');
 
-  // Process JLPT levels
-  var jlptLevels = '';
-  if (jsonData.jlpt && jsonData.jlpt.length > 0) {
-    jlptLevels = `JLPT: ${jsonData.jlpt.map(level => level.toUpperCase().replace('JLPT-', '')).join(', ')}`;
-  }
+  titleContent += `<span class="tags">${tagsContent}</span></div>`;
 
-  // Process Wanikani level
-  var wanikaniLevel = '';
-  if (jsonData.tags && jsonData.tags.length > 0 && jsonData.tags[0].startsWith("wanikani")) {
-    wanikaniLevel = `Wanikani level ${jsonData.tags[0].substr(8)}`;
-  }
-
-  // Combine processed parts
-  var tagsContent = [commonWord, jlptLevels, wanikaniLevel].filter(Boolean).join(', ');
-
-  titleContent += `<span class="tags">${tagsContent}</span>
-  </div>`;
-
-
-  // Definitions and details section
   var definitionsContent = '<div class="definitions">';
   jsonData.senses.forEach(function(sense, index) {
-
-    // Skip if parts_of_speech includes "Wikipedia definition"
-    if (sense.parts_of_speech.includes("Wikipedia definition")) {
-      return;
-    }
-
     definitionsContent += `<div class="definition">
       <div class="parts-of-speech">${sense.parts_of_speech.join(', ')}</div>
       <strong>${index + 1}. ${sense.english_definitions.join(', ')}</strong>`;
+
     if (sense.restrictions.length > 0) {
-      definitionsContent += `<p>(Only applies to ${jsonData.japanese[0].reading})</p>`;
+      sense.restrictions.forEach(function(restriction) {
+        definitionsContent += `<p class="restriction">(Only applies to ${restriction})</p>`;
+      });
     }
-    definitionsContent += `</div>`;
+
+    definitionsContent += '</div>';
   });
   definitionsContent += '</div>';
 
-  // Other forms and notes section
-  var otherFormsContent = '';
-  if (jsonData.japanese.length > 1) {
-    var otherForms = jsonData.japanese.slice(1).map(j => `${j.word} [${j.reading}]`).join(', ');
-    otherFormsContent = `<div class="other-forms">Other forms: ${otherForms}</div>`;
-  }
+  var otherFormsContent = '<div class="other-forms">Other forms: ' +
+    jsonData.japanese.slice(1).map(j => `${j.word} [${j.reading}]`).join(', ') + '</div>';
 
-  // Combining all parts into the final content
   var finalContent = `<div class="jisho-style">${titleContent}${definitionsContent}${otherFormsContent}</div>`;
 
   document.getElementById('back').innerHTML = finalContent;
 </script>
+
