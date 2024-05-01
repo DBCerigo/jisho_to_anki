@@ -41,7 +41,7 @@
     }
 
     definitionsContent += `<div class="definition">
-      <div class="part-of-speech">${sense.parts_of_speech[0]}</div>
+      <div class="parts-of-speech">${sense.parts_of_speech.join(', ')}</div>
       <strong>${index + 1}. ${sense.english_definitions.join(', ')}</strong>`;
     if (sense.restrictions.length > 0) {
       definitionsContent += `<p>(Only applies to ${jsonData.japanese[0].reading})</p>`;
