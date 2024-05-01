@@ -7,6 +7,14 @@
   flex-direction: column;
 }
 
+hr#answer {
+  margin-bottom: -10px; /* Reduce the space below the horizontal rule */
+}
+
+.question_word {
+  text-align: center;
+}
+
 .word-title h1 {
   font-size: 24px;
 }
