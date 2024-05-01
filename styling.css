@@ -1,8 +1,37 @@
 .card {
-    font-family: arial;
-    font-size: 20px;
-    text-align: center;
-    color: black;
-    background-color: white;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  text-align: left;
+  color: black;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
+.word-title h1 {
+  font-size: 24px;
+}
+
+.tags {
+  font-size: 14px;
+  color: grey;
+}
+
+.definitions .definition {
+  margin-top: 10px;
+}
+
+.definitions strong {
+  font-size: 18px;
+}
+
+.other-forms, .notes {
+  font-style: italic;
+  margin-top: 15px;
+}
+
+.wikipedia {
+  margin-top: 10px;
+  font-size: 14px;
+}

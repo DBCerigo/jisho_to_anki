@@ -5,25 +5,45 @@
 
 <script>
   var jsonData = JSON.parse(unescape(document.getElementById("back").getAttribute("data")));
-  var content = `<div class="jisho-style">
+  
+  // Title section with word and reading
+  var titleContent = `<div class="word-title">
     <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>
-    <span class="tags">${jsonData.is_common ? 'Common word' : ''} Wanikani level ${jsonData.tags[0].substr(8)}</span>
-    <h3>Noun</h3>`;
+    <span class="tags">${jsonData.is_common ? 'Common word, ' : ''} Wanikani level ${jsonData.tags[0].substr(8)}</span>
+  </div>`;
 
+  // Definitions and details section
+  var definitionsContent = '<div class="definitions">';
   jsonData.senses.forEach(function(sense, index) {
-    content += `<div><strong>${index + 1}. ${sense.english_definitions.join(', ')}</strong>`;
+    definitionsContent += `<div class="definition">
+      <strong>${index + 1}. ${sense.english_definitions.join(', ')}</strong>`;
     if (sense.parts_of_speech.includes('Noun')) {
-      content += `<p>Only applies to ${jsonData.japanese[0].reading}</p>`;
+      definitionsContent += `<p>(Only applies to ${jsonData.japanese[0].reading})</p>`;
     }
-    if (index === 4) { // Assuming the Wikipedia definition is always the fifth entry
-      content += `<div class="wikipedia">Wikipedia definition: <a href="${sense.links[0].url}">${sense.english_definitions[0]}</a></div>`;
-    }
-    content += `</div>`;
+    definitionsContent += `</div>`;
   });
+  definitionsContent += '</div>';
 
-  content += `<div class="other-forms">Other forms: ${jsonData.japanese.map(j => `${j.word} [${j.reading}]`).join(', ')}</div>`;
-  content += `<div class="notes">Notes: Out-dated kanji or kanji usage.</div>`;
-  content += `</div>`;
+  // Additional links and Wikipedia definitions if available
+  var wikipediaContent = '';
+  if (jsonData.senses[4].links.length > 0) {
+    wikipediaContent = `<div class="wikipedia">
+      Wikipedia definition: <a href="${jsonData.senses[4].links[0].url}">${jsonData.senses[4].english_definitions[0]}</a>
+    </div>`;
+  }
 
-  document.getElementById('back').innerHTML = content;
+  // Other forms and notes section
+  var otherFormsContent = `<div class="other-forms">
+    Other forms: ${jsonData.japanese.map(j => `${j.word} [${j.reading}]`).join(', ')}
+  </div>`;
+
+  var notesContent = `<div class="notes">
+    Notes: Out-dated kanji or kanji usage.
+  </div>`;
+
+  // Combining all parts into the final content
+  var finalContent = `<div class="jisho-style">${titleContent}${definitionsContent}${wikipediaContent}${otherFormsContent}${notesContent}</div>`;
+
+  document.getElementById('back').innerHTML = finalContent;
 </script>
+
