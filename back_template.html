@@ -57,12 +57,8 @@
     otherFormsContent = `<div class="other-forms">Other forms: ${otherForms}</div>`;
   }
 
-  var notesContent = `<div class="notes">
-    Notes: Out-dated kanji or kanji usage.
-  </div>`;
-
   // Combining all parts into the final content
-  var finalContent = `<div class="jisho-style">${titleContent}${definitionsContent}${otherFormsContent}${notesContent}</div>`;
+  var finalContent = `<div class="jisho-style">${titleContent}${definitionsContent}${otherFormsContent}</div>`;
 
   document.getElementById('back').innerHTML = finalContent;
 </script>
