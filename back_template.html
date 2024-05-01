@@ -5,7 +5,7 @@
 
 <script>
   var jsonData = JSON.parse(unescape(document.getElementById("back").getAttribute("data")));
-  
+
   // Title section with word and reading
   var titleContent = `<div class="word-title">
     <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>
@@ -24,14 +24,6 @@
   });
   definitionsContent += '</div>';
 
-  // Additional links and Wikipedia definitions if available
-  var wikipediaContent = '';
-  if (jsonData.senses[4].links.length > 0) {
-    wikipediaContent = `<div class="wikipedia">
-      Wikipedia definition: <a href="${jsonData.senses[4].links[0].url}">${jsonData.senses[4].english_definitions[0]}</a>
-    </div>`;
-  }
-
   // Other forms and notes section
   var otherFormsContent = `<div class="other-forms">
     Other forms: ${jsonData.japanese.map(j => `${j.word} [${j.reading}]`).join(', ')}
@@ -42,8 +34,7 @@
   </div>`;
 
   // Combining all parts into the final content
-  var finalContent = `<div class="jisho-style">${titleContent}${definitionsContent}${wikipediaContent}${otherFormsContent}${notesContent}</div>`;
+  var finalContent = `<div class="jisho-style">${titleContent}${definitionsContent}${otherFormsContent}${notesContent}</div>`;
 
   document.getElementById('back').innerHTML = finalContent;
 </script>
-
