@@ -21,17 +21,18 @@
 }
 
 .definitions .parts-of-speech {
-  font-size: 16px;
-  color: grey;
+  font-size: 17px; /* slightly more prominent */
+  color: darkgrey; /* slightly more visible */
   margin-bottom: 5px;
 }
 
-.definitions .definition-content, .definitions .details {
-  display: inline; /* Make content inline */
+.definitions strong {
+  font-size: 19px; /* slightly bigger for main definitions */
 }
 
-.definitions strong {
-  font-size: 18px;
+.definitions .details {
+  font-size: 13px; /* smaller and less prominent */
+  color: grey; /* more subdued color */
 }
 
 .other-forms, .notes {
