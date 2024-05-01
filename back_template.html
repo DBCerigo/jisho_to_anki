@@ -26,8 +26,13 @@
   });
   definitionsContent += '</div>';
 
-  var otherFormsContent = '<div class="other-forms">Other forms: ' +
-    jsonData.japanese.slice(1).map(j => `${j.word} [${j.reading}]`).join(', ') + '</div>';
+  var otherFormsContent = '';
+  if (jsonData.japanese.length > 1) {
+    var otherForms = jsonData.japanese.slice(1).map(j => `${j.word} [${j.reading}]`).join(', ');
+    if (otherForms.length > 0) {
+      otherFormsContent = `<div class="other-forms">Other forms: ${otherForms}</div>`;
+    }
+  }
 
   var finalContent = `<div class="jisho-style">${titleContent}${definitionsContent}${otherFormsContent}</div>`;
 
