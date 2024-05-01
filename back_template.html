@@ -1,0 +1,29 @@
+<!-- Back Template -->
+{{FrontSide}}
+<hr id="answer">
+<div id="back" class="card" data='{{json_data}}'></div>
+
+<script>
+  var jsonData = JSON.parse(unescape(document.getElementById("back").getAttribute("data")));
+  var content = `<div class="jisho-style">
+    <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>
+    <span class="tags">${jsonData.is_common ? 'Common word' : ''} Wanikani level ${jsonData.tags[0].substr(8)}</span>
+    <h3>Noun</h3>`;
+
+  jsonData.senses.forEach(function(sense, index) {
+    content += `<div><strong>${index + 1}. ${sense.english_definitions.join(', ')}</strong>`;
+    if (sense.parts_of_speech.includes('Noun')) {
+      content += `<p>Only applies to ${jsonData.japanese[0].reading}</p>`;
+    }
+    if (index === 4) { // Assuming the Wikipedia definition is always the fifth entry
+      content += `<div class="wikipedia">Wikipedia definition: <a href="${sense.links[0].url}">${sense.english_definitions[0]}</a></div>`;
+    }
+    content += `</div>`;
+  });
+
+  content += `<div class="other-forms">Other forms: ${jsonData.japanese.map(j => `${j.word} [${j.reading}]`).join(', ')}</div>`;
+  content += `<div class="notes">Notes: Out-dated kanji or kanji usage.</div>`;
+  content += `</div>`;
+
+  document.getElementById('back').innerHTML = content;
+</script>
