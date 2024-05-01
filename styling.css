@@ -28,9 +28,8 @@
   margin-bottom: 5px;
 }
 
-.restriction {
-  font-size: 14px; /* Smaller than the main definition text */
-  color: grey; /* Subdued color to indicate less prominence */
+.definitions .definition-content, .definitions .details {
+  display: inline; /* Make content inline */
 }
 
 .definitions strong {

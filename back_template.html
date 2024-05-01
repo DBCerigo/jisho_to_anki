@@ -9,7 +9,6 @@
   var titleContent = `<div class="word-title">
     <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>`;
 
-  // Process tags like common word and Wanikani level
   var tagsContent = [
     jsonData.is_common ? 'Common word' : '',
     jsonData.tags.length > 0 ? `Wanikani level ${jsonData.tags[0].substr(8)}` : ''
@@ -21,15 +20,9 @@
   jsonData.senses.forEach(function(sense, index) {
     definitionsContent += `<div class="definition">
       <div class="parts-of-speech">${sense.parts_of_speech.join(', ')}</div>
-      <strong>${index + 1}. ${sense.english_definitions.join(', ')}</strong>`;
-
-    if (sense.restrictions.length > 0) {
-      sense.restrictions.forEach(function(restriction) {
-        definitionsContent += `<p class="restriction">(Only applies to ${restriction})</p>`;
-      });
-    }
-
-    definitionsContent += '</div>';
+      <span class="definition-content"><strong>${index + 1}. ${sense.english_definitions.join('; ')}</strong>
+      <span class="details">${[...sense.tags, ...sense.restrictions.map(r => 'Only applies to ' + r), ...sense.info].join(', ')}</span></span>
+    </div>`;
   });
   definitionsContent += '</div>';
 
@@ -40,4 +33,3 @@
 
   document.getElementById('back').innerHTML = finalContent;
 </script>
-
