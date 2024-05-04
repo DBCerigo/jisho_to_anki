@@ -9,42 +9,49 @@
   var jsonDataElement = document.getElementById("json_data").innerText;
   var jsonData = JSON.parse(unescape(jsonDataElement));
 
-  var titleContent = `<div class="word-title">
-    <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>`;
+  // Check if the data is just an 'answer' or full Jisho-like data
+  if (jsonData.hasOwnProperty('answer')) {
+    // If it's just an 'answer', display it directly
+    var formattedAnswer = jsonData.answer.replace(/\\n/g, '<br>');
+    document.getElementById('back').innerHTML = `<div class="simple-answer">${formattedAnswer}</div>`;
+  } else {
+    // Else process the full Jisho API response
+    var titleContent = `<div class="word-title">
+      <h1>${jsonData.japanese[0].word} (${jsonData.japanese[0].reading})</h1>`;
 
-  // Process JLPT levels
-  var jlptLevels = jsonData.jlpt.map(level => level.toUpperCase().replace('JLPT-', '')).join(', ');
-  if (jlptLevels.length > 0) {
-    jlptLevels = `JLPT: ${jlptLevels}`;
-  }
-
-  var tagsContent = [
-    jsonData.is_common ? 'Common word' : '',
-    jlptLevels,
-    jsonData.tags.length > 0 ? `Wanikani level ${jsonData.tags[0].substr(8)}` : ''
-  ].filter(tag => tag).join(', ');
-
-  titleContent += `<span class="tags">${tagsContent}</span></div>`;
-
-  var definitionsContent = '<div class="definitions">';
-  jsonData.senses.forEach(function(sense, index) {
-    definitionsContent += `<div class="definition">
-      <div class="parts-of-speech">${sense.parts_of_speech.join(', ')}</div>
-      <span class="definition-content"><strong>${index + 1}. ${sense.english_definitions.join('; ')}</strong>
-      <span class="details">${[...sense.tags, ...sense.restrictions.map(r => 'Only applies to ' + r), ...sense.info].join(', ')}</span></span>
-    </div>`;
-  });
-  definitionsContent += '</div>';
-
-  var otherFormsContent = '';
-  if (jsonData.japanese.length > 1) {
-    var otherForms = jsonData.japanese.slice(1).map(j => `${j.word} [${j.reading}]`).join(', ');
-    if (otherForms.length > 0) {
-      otherFormsContent = `<div class="other-forms">Other forms: ${otherForms}</div>`;
+    // Process JLPT levels
+    var jlptLevels = jsonData.jlpt.map(level => level.toUpperCase().replace('JLPT-', '')).join(', ');
+    if (jlptLevels.length > 0) {
+      jlptLevels = `JLPT: ${jlptLevels}`;
     }
+
+    var tagsContent = [
+      jsonData.is_common ? 'Common word' : '',
+      jlptLevels,
+      jsonData.tags.length > 0 ? `Wanikani level ${jsonData.tags[0].substr(8)}` : ''
+    ].filter(tag => tag).join(', ');
+
+    titleContent += `<span class="tags">${tagsContent}</span></div>`;
+
+    var definitionsContent = '<div class="definitions">';
+    jsonData.senses.forEach(function(sense, index) {
+      definitionsContent += `<div class="definition">
+        <div class="parts-of-speech">${sense.parts_of_speech.join(', ')}</div>
+        <span class="definition-content"><strong>${index + 1}. ${sense.english_definitions.join('; ')}</strong>
+        <span class="details">${[...sense.tags, ...sense.restrictions.map(r => 'Only applies to ' + r), ...sense.info].join(', ')}</span></span>
+      </div>`;
+    });
+    definitionsContent += '</div>';
+
+    var otherFormsContent = '';
+    if (jsonData.japanese.length > 1) {
+      var otherForms = jsonData.japanese.slice(1).map(j => `${j.word} [${j.reading}]`).join(', ');
+      if (otherForms.length > 0) {
+        otherFormsContent = `<div class="other-forms">Other forms: ${otherForms}</div>`;
+      }
+    }
+
+    var finalContent = `<div class="jisho-style">${titleContent}${definitionsContent}${otherFormsContent}</div>`;
+    document.getElementById('back').innerHTML = finalContent;
   }
-
-  var finalContent = `<div class="jisho-style">${titleContent}${definitionsContent}${otherFormsContent}</div>`;
-
-  document.getElementById('back').innerHTML = finalContent;
 </script>
